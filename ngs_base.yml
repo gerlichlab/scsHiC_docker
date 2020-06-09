@@ -1,0 +1,58 @@
+name: ngs_base
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  # newest python
+  - python=3.7.6
+  # user required tools:
+  - cooler
+  - numpy
+  - matplotlib
+  - multiprocess
+  - pairtools
+  - pandas
+  - pybedtools
+  - pybigwig
+  - pysam
+  - scikit-learn
+  - scipy
+  - seaborn
+  - statsmodels
+  # requirements for pairlib: 
+  # - numpy
+  - cython
+  # requirements for bioframe:
+  # - pandas 
+  - six
+  - requests 
+  - pairix
+  # requirements for cooltools:
+  # - numpy 
+  # - cython 
+  # - matplotlib 
+  # - pandas
+  # - scipy
+  # - cooler 
+  # - scikit-learn 
+  - h5py 
+  - numba 
+  - dask 
+  - click 
+  - pytest
+  # packages to facility development with vscode inside the container
+  - pylama
+  # parquet support
+  - pyensembl
+  - pyarrow
+  - fastparquet
+  # jupyter support
+  - ipywidgets
+  - ipykernel
+  - jupyterlab
+  # loop caller
+  - chromosight
+  # for nextflowpipeline
+  - nextflow
+  - bwa
