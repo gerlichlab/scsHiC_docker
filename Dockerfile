@@ -47,7 +47,7 @@ RUN source activate ngs_base &&\
     # Install gerlich repos
     pip install git+git://github.com/gerlichlab/ngs.git &&\
     pip install git+git://github.com/cchlanger/cooler_ontad.git &&\
-    pip install git+git://github.com/Mittmich/higlassup.git &&\
+    pip install git+git://github.com/Mittmich/higlassupload.git &&\
     #Creates a file into the container that logs which version conda installs
     conda list > conda_packages_version_list.txt
 
