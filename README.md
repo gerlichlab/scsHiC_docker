@@ -8,7 +8,7 @@ This container will be kept updated and future versions will include additional 
 This container can be found on [dockerhub](https://hub.docker.com/r/gerlichlab/scshic_docker).
 ## Version 1.0 
 Core components:
-- The mirnylab [cooler](https://github.com/mirnylab/cooler) ecosystem including [cooltools](https://github.com/mirnylab/cooltools).
+- The mirnylab [cooler](https://github.com/mirnylab/cooler) ecosystem including [pairtools](https://github.com/mirnylab/pairtools) and [cooltools](https://github.com/mirnylab/cooltools).
 - A [collections of functions](https://github.com/gerlichlab/ngs) to facilitate analysis of HiC data based on the cooler and cooltools interfaces.
 - [OnTAD](https://github.com/anlin00007/OnTAD) and a python [wrapper](https://github.com/cchlanger/cooler_ontad) to use it with coolers.
 - [FastQC](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
