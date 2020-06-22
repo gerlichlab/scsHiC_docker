@@ -43,6 +43,7 @@ dependencies:
   - pytest
   # packages to facility development with vscode inside the container
   - pylama
+  - black
   # parquet support
   - pyensembl
   - pyarrow
