@@ -39,6 +39,7 @@ RUN conda env create -f /temp/install/ngs_base.yml
 WORKDIR /home
 
 # Install bioframe, cooltools and pairlib as well as our own tools
+
 RUN source activate ngs_base &&\
     # Creates a file into the container that logs which version conda installs and all pip installs
     conda list > software_versions.txt &&\
@@ -51,15 +52,16 @@ RUN source activate ngs_base &&\
     echo "# pip install git+git://github.com/mirnylab/pairlib@34691e24b5c36b8f48266fb386b32b9fbd1210d6" >> software_versions_list.txt &&\
     # Install gerlich repos and safe the latest git hash
     # ngs
-    githash=`git ls-remote git@github.com:gerlichlab/ngs.git | grep HEAD | cut -f 1` &&\
+    githash=`git ls-remote https://github.com/gerlichlab/ngs.git | grep HEAD | cut -f 1` &&\
+    echo "GITHASH: $githash " &&\
     pip install git+git://github.com/gerlichlab/ngs@$githash &&\
     echo "# pip install git+git://github.com/gerlichlab/ngs@$githash" >> software_versions.txt &&\
     # cooler_ontad
-    githash=`git ls-remote git@github.com:cchlanger/cooler_ontad.git | grep HEAD | cut -f 1` &&\
+    githash=`git ls-remote https://github.com/cchlanger/cooler_ontad.git | grep HEAD | cut -f 1` &&\
     pip install git+git://github.com/cchlanger/cooler_ontad@$githash &&\
     echo "# pip install git+git://github.com/cchlanger/cooler_ontad@$githash" >> software_versions.txt &&\
     # higlassup
-    githash=`git ls-remote git@github.com:Mittmich/higlassupload.git | grep HEAD | cut -f 1` &&\
+    githash=`git ls-remote https://github.com/Mittmich/higlassupload.git | grep HEAD | cut -f 1` &&\
     pip install git+git://github.com/Mittmich/higlassupload.git@$githash &&\
     echo "# pip install git+git://github.com/Mittmich/higlassupload.git@$githash" >> software_versions.txt
 
