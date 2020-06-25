@@ -40,16 +40,28 @@ WORKDIR /home
 
 # Install bioframe, cooltools and pairlib as well as our own tools
 RUN source activate ngs_base &&\
-    # Install mirnylabtools
+    #Creates a file into the container that logs which version conda installs and all pip installs
+    conda list > software_versions.txt &&\
+    # Install mirnylabtools - frozen
     pip install git+git://github.com/mirnylab/bioframe@40ca346f8726cf809a16fca4df21298f7c096dc3 &&\
+    echo "# pip install git+git://github.com/mirnylab/bioframe@40ca346f8726cf809a16fca4df21298f7c096dc3" >> software_versions.txt &&\
     pip install git+git://github.com/mirnylab/cooltools@26b885356e5fd81dd6f34ef688edc45a020ca9d0 &&\
+    echo "# pip install git+git://github.com/mirnylab/cooltools@26b885356e5fd81dd6f34ef688edc45a020ca9d0" >> software_versions.txt &&\
     pip install git+git://github.com/mirnylab/pairlib@34691e24b5c36b8f48266fb386b32b9fbd1210d6 &&\
-    # Install gerlich repos
-    pip install git+git://github.com/gerlichlab/ngs.git &&\
-    pip install git+git://github.com/cchlanger/cooler_ontad.git &&\
-    pip install git+git://github.com/Mittmich/higlassupload.git &&\
-    #Creates a file into the container that logs which version conda installs
-    conda list > conda_packages_version_list.txt
+    echo "# pip install git+git://github.com/mirnylab/pairlib@34691e24b5c36b8f48266fb386b32b9fbd1210d6" >> software_versions_list.txt &&\
+    # Install gerlich repos and safe the latest git hash
+    #ngs
+    githash=`git ls-remote git@github.com:gerlichlab/ngs.git | grep HEAD | cut -f 1` &&\
+    pip install git+git://github.com/gerlichlab/ngs@$githash &&\
+    echo "# pip install git+git://github.com/gerlichlab/ngs@$githash" >> software_versions.txt &&\
+    #cooler_ontad
+    githash=`git ls-remote git@github.com:cchlanger/cooler_ontad.git | grep HEAD | cut -f 1` &&\
+    pip install git+git://github.com/cchlanger/cooler_ontad@$githash &&\
+    echo "# pip install ggit+git://github.com/cchlanger/cooler_ontad@$githash" >> software_versions.txt &&\
+    #higlassup
+    githash=`git ls-remote git@github.com:Mittmich/higlassupload.git | grep HEAD | cut -f 1` &&\
+    pip install git+git://github.com/Mittmich/higlassupload.git@$githash &&\
+    echo "# pip install git+git://github.com/Mittmich/higlassupload.git@$githash" >> software_versions.txt
 
 ENV PATH="/home/anaconda3/envs/ngs_base/bin/:${PATH}"
 

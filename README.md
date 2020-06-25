@@ -15,7 +15,10 @@ Core components:
 - [Chromosight](https://github.com/koszullab/chromosight)
 - [Jupyter Lab](https://jupyterlab.readthedocs.io/en/latest/) to be able run the [notebooks of the paper](https://github.com/gerlichlab/scshic_analysis).
 - last but not least an [upload wrapper](https://github.com/Mittmich/higlassupload) for [HiGlass](https://github.com/higlass/higlass).
-  
+
+# Software Versions:
+If you built this container yourself, it will try to built with the newest versions of the softwares included.
+However there is always a frozen snapshot on dockerhub. In those containers you will find a file called `software_versions.txt` - it will include all conda hashes and all hashes of git repositories that were installed via pip.
 
 # Related projects
 This container is used by our [scsHi-C pipeline](https://github.com/gerlichlab/scshic_pipeline).
