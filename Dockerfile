@@ -57,7 +57,7 @@ RUN source activate ngs_base &&\
     # cooler_ontad
     githash=`git ls-remote git@github.com:cchlanger/cooler_ontad.git | grep HEAD | cut -f 1` &&\
     pip install git+git://github.com/cchlanger/cooler_ontad@$githash &&\
-    echo "# pip install ggit+git://github.com/cchlanger/cooler_ontad@$githash" >> software_versions.txt &&\
+    echo "# pip install git+git://github.com/cchlanger/cooler_ontad@$githash" >> software_versions.txt &&\
     # higlassup
     githash=`git ls-remote git@github.com:Mittmich/higlassupload.git | grep HEAD | cut -f 1` &&\
     pip install git+git://github.com/Mittmich/higlassupload.git@$githash &&\

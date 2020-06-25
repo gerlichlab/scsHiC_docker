@@ -6,7 +6,9 @@ This container will be kept updated and future versions will include additional 
 
 # Dockerhub and Version
 This container can be found on [dockerhub](https://hub.docker.com/r/gerlichlab/scshic_docker).
-## Version 1.0 
+## Version 1.1
+last version with frozen cooltools, bioframe and pairlib
+## Version 1.0  (used for publication)
 Core components:
 - The mirnylab [cooler](https://github.com/mirnylab/cooler) ecosystem including [pairtools](https://github.com/mirnylab/pairtools) and [cooltools](https://github.com/mirnylab/cooltools).
 - A [collections of functions](https://github.com/gerlichlab/ngs) to facilitate analysis of HiC data based on the cooler and cooltools interfaces.
