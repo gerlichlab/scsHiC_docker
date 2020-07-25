@@ -6,6 +6,9 @@ This container will be kept updated and future versions will include additional 
 
 # Dockerhub and Version
 This container can be found on [dockerhub](https://hub.docker.com/r/gerlichlab/scshic_docker).
+## Version 1.3
+This version is for our next project.
+Adds all dependencies for a flask server, but not flask itself.
 ## Version 1.2
 Changes:
 - Uses currently newest cooltools, bioframe and pairlib

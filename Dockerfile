@@ -9,7 +9,7 @@ ENV LC_ALL C.UTF-8
 # Update and create base image
 RUN apt-get update -y &&\
     apt-get install apt-utils -y &&\
-    apt-get install -y file bzip2 default-jre gcc g++ git make ssh unzip wget &&\
+    apt-get install -y file bzip2 default-jre gcc g++ git make ssh unzip wget libz-dev iproute2 curl iputils-ping &&\
     apt-get clean
 
 # Install Anaconda
@@ -35,6 +35,8 @@ ENV PATH="/opt/FastQC:${PATH}"
 
 # Install ngs_base environment
 RUN conda env create -f /temp/install/ngs_base.yml 
+# Install flask environment
+RUN conda env create -f /temp/install/flask.yml 
 
 WORKDIR /home
 
