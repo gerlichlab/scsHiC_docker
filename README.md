@@ -10,6 +10,7 @@ This container can be found on [dockerhub](https://hub.docker.com/r/gerlichlab/s
 Changes:
 - Uses currently newest cooltools, bioframe and pairlib
 - Minimum version for all conda packages 
+
 ## Version 1.1
 last version with frozen cooltools, bioframe and pairlib
 ## Version 1.0  (used for publication)
