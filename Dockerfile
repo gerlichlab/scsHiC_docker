@@ -47,7 +47,7 @@ RUN source activate ngs_base &&\
     # ngs
     githash=`git ls-remote https://github.com/gerlichlab/ngs.git | grep HEAD | cut -f 1` &&\
     pip install git+git://github.com/gerlichlab/ngs@$githash &&\
-    echo "# pip install git+git://github.com/gerlichlab/ngs@$githash" >> software_versions_git.txt &&\
+    echo "# pip install git+git://github.com/gerlichlab/ngs@$githash" >> software_versions_git.txt
 
 ENV PATH="/home/anaconda3/envs/ngs_base/bin/:${PATH}"
 
