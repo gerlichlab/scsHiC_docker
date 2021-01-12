@@ -6,9 +6,14 @@ This container will be kept updated and future versions will include additional 
 
 # Dockerhub and Version
 This container can be found on [dockerhub](https://hub.docker.com/r/gerlichlab/scshic_docker).
+
+## Version dev-1.0
+
+Development container for [HiCognition](https://github.com/gerlichlab/HiCognition_flask) without cooltools, pairtools and ngs to allow more flexible building.
+
 ## Version 1.3
 This version is for our next project.
-Adds all dependencies for a flask server, but not flask itself.
+Adds all dependencies for a flask server, but not flask itself. Deprecated for development in favor of `dev-1.0`
 ## Version 1.2
 Changes:
 - Uses currently newest cooltools, bioframe and pairlib
