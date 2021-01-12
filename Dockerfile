@@ -40,15 +40,6 @@ RUN conda env create -f /temp/install/flask.yml
 
 WORKDIR /home
 
-# Install bioframe, cooltools and pairlib as well as our own tools
-RUN source activate ngs_base &&\
-    # Creates a file into the container that logs which version conda installs and all pip installs
-    conda list > software_versions_conda.txt &&\
-    # ngs
-    githash=`git ls-remote https://github.com/gerlichlab/ngs.git | grep HEAD | cut -f 1` &&\
-    pip install git+git://github.com/gerlichlab/ngs@$githash &&\
-    echo "# pip install git+git://github.com/gerlichlab/ngs@$githash" >> software_versions_git.txt
-
 ENV PATH="/home/anaconda3/envs/ngs_base/bin/:${PATH}"
 
 CMD /bin/bash
