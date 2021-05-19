@@ -1,8 +1,10 @@
-FROM docker.io/ubuntu:bionic
-ARG DEBIAN_FRONTEND=noninteractive
+FROM docker.io/ubuntu:bionic as scshic_base
+
+# ARG will prevent RUN from being cached, breaking basically all caching for the build
+ENV DEBIAN_FRONTEND=noninteractive
 # Can not use /temp on our cluster
 WORKDIR /temp
-COPY . /temp/install/
+
 ENV LANG C.UTF-8  
 ENV LC_ALL C.UTF-8
 
@@ -14,11 +16,11 @@ RUN apt-get update -y &&\
 
 # Install Anaconda
 SHELL ["/bin/bash", "-c"]
-RUN wget -q https://repo.anaconda.com/archive/Anaconda3-2019.10-Linux-x86_64.sh &&\
-    bash Anaconda3-2019.10-Linux-x86_64.sh -b -p /home/anaconda3
+# ADD works for URLs too, will also check if changed
+ADD https://repo.anaconda.com/archive/Anaconda3-2021.05-Linux-x86_64.sh /temp
+RUN chmod +x /temp/Anaconda3-2021.05-Linux-x86_64.sh && /temp/Anaconda3-2021.05-Linux-x86_64.sh -b -p /home/anaconda3
 ENV PATH="/home/anaconda3/bin:${PATH}"
-RUN conda update -y conda &&\
-    conda update -y conda-build
+RUN conda update -y conda-build
 
 # Install OnTAD
 RUN cd /opt && git clone https://github.com/anlin00007/OnTAD.git &&\
@@ -34,8 +36,10 @@ RUN cd /opt && wget http://www.bioinformatics.babraham.ac.uk/projects/fastqc/fas
 ENV PATH="/opt/FastQC:${PATH}"
 
 # Install ngs_base environment
+ADD ngs_base.yml /temp/install/
 RUN conda env create -f /temp/install/ngs_base.yml 
 # Install flask environment
+ADD flask.yml /temp/install/
 RUN conda env create -f /temp/install/flask.yml 
 
 WORKDIR /home
@@ -74,3 +78,24 @@ RUN source activate ngs_base &&\
 ENV PATH="/home/anaconda3/envs/ngs_base/bin/:${PATH}"
 
 CMD /bin/bash
+
+# multistage build for the jupyter integration
+FROM scshic_base as jupyter
+
+ADD jupyter_entrypoint.sh /jupyter_entrypoint.sh
+ADD jupyter_env.yml /home
+
+ENV USER jovian
+ENV NB_UID 1000
+ENV HOME /home/${NB_USER}
+
+RUN adduser --disabled-password \
+    --gecos "Default user" \
+    --uid ${NB_UID} \
+    ${NB_USER}
+
+USER jovyan
+
+RUN conda init
+ENTRYPOINT ["/jupyter_entrypoint.sh"]
+
