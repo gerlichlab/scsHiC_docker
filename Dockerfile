@@ -8,8 +8,6 @@ RUN apt-get update -y &&\
     apt-get install -y gcc g++ make libz-dev &&\
     apt-get clean
 
-ENV PATH="/opt/OnTAD/src:${PATH}"
-
 # Install ngs_base environment
 ADD ngs_base.yml /temp/install/
 
