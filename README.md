@@ -6,6 +6,11 @@ This container will be kept updated and future versions will include additional 
 
 # Dockerhub and Version
 This container can be found on [dockerhub](https://hub.docker.com/r/gerlichlab/scshic_docker).
+
+## Version 1.5
+
+This version removes things not needed by our [scsHi-C pipeline](https://github.com/gerlichlab/scshic_pipeline) and tries to minimize container size.
+
 ## Version 1.3
 This version is for our next project.
 Adds all dependencies for a flask server, but not flask itself.
