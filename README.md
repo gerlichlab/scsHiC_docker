@@ -10,6 +10,9 @@ This container can be found on [dockerhub](https://hub.docker.com/r/gerlichlab/s
 ## Version dev-1.0
 
 Development container for [HiCognition](https://github.com/gerlichlab/HiCognition_flask) without cooltools, pairtools and ngs to allow more flexible building.
+## Version 1.5
+
+This version removes things not needed by our [scsHi-C pipeline](https://github.com/gerlichlab/scshic_pipeline) and tries to minimize container size.
 
 ## Version 1.3
 This version is for our next project.

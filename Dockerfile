@@ -1,49 +1,20 @@
-FROM docker.io/ubuntu:bionic
-ARG DEBIAN_FRONTEND=noninteractive
-# Can not use /temp on our cluster
-WORKDIR /temp
-COPY . /temp/install/
+FROM continuumio/miniconda3:4.9.2
+ENV DEBIAN_FRONTEND=noninteractive
 ENV LANG C.UTF-8  
 ENV LC_ALL C.UTF-8
 
 # Update and create base image
 RUN apt-get update -y &&\
-    apt-get install apt-utils -y &&\
-    apt-get install -y file bzip2 default-jre gcc g++ git make ssh unzip wget libz-dev iproute2 curl iputils-ping &&\
+    apt-get install -y gcc g++ make libz-dev &&\
     apt-get clean
 
-# Install Anaconda
-SHELL ["/bin/bash", "-c"]
-RUN wget -q https://repo.anaconda.com/archive/Anaconda3-2019.10-Linux-x86_64.sh &&\
-    bash Anaconda3-2019.10-Linux-x86_64.sh -b -p /home/anaconda3
-ENV PATH="/home/anaconda3/bin:${PATH}"
-RUN conda update -y conda &&\
-    conda update -y conda-build
-
-# Install OnTAD
-RUN cd /opt && git clone https://github.com/anlin00007/OnTAD.git &&\
-    cd OnTAD &&\
-    git checkout 3da5d9a4569b1f316d4508e60781f22f338f68b1
-RUN              cd /opt/OnTAD/src && make clean && make
-ENV PATH="/opt/OnTAD/src:${PATH}"
-
-# Install fastqc
-RUN cd /opt && wget http://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.11.9.zip &&\
-    unzip /opt/fastqc_v0.11.9.zip &&\
-    chmod +x /opt/FastQC/fastqc
-ENV PATH="/opt/FastQC:${PATH}"
-
 # Install ngs_base environment
-RUN conda env create -f /temp/install/ngs_base.yml 
-# Install flask environment
-RUN conda env create -f /temp/install/flask.yml 
+ADD ngs_base.yml /temp/install/
 
-WORKDIR /home
-
-# Install bioframe, cooltools and pairlib as well as our own tools
-RUN source activate ngs_base &&\
-    # Creates a file into the container that logs which version conda installs and all pip installs
-    conda list > software_versions_conda.txt &&\
+# install mamba
+RUN conda install mamba -n base -c conda-forge &&\
+    mamba env update -n base --f /temp/install/ngs_base.yml &&\
+    mamba list > software_versions_conda.txt &&\
     # Install mirnylabtools
     # bioframe
     githash=`git ls-remote https://github.com/mirnylab/bioframe.git | grep HEAD | cut -f 1` &&\
@@ -56,21 +27,8 @@ RUN source activate ngs_base &&\
     # pairlib
     githash=`git ls-remote https://github.com/mirnylab/pairlib.git | grep HEAD | cut -f 1` &&\
     pip install git+git://github.com/mirnylab/pairlib@$githash &&\
-    echo "# pip install git+git://github.com/mirnylab/pairlib@$githash" >> software_versions_git.txt &&\
-    # Install gerlich repos and safe the latest git hash
-    # ngs
-    githash=`git ls-remote https://github.com/gerlichlab/ngs.git | grep HEAD | cut -f 1` &&\
-    pip install git+git://github.com/gerlichlab/ngs@$githash &&\
-    echo "# pip install git+git://github.com/gerlichlab/ngs@$githash" >> software_versions_git.txt &&\
-    # cooler_ontad
-    githash=`git ls-remote https://github.com/cchlanger/cooler_ontad.git | grep HEAD | cut -f 1` &&\
-    pip install git+git://github.com/cchlanger/cooler_ontad@$githash &&\
-    echo "# pip install git+git://github.com/cchlanger/cooler_ontad@$githash" >> software_versions_git.txt &&\
-    # higlassup
-    githash=`git ls-remote https://github.com/Mittmich/higlassupload.git | grep HEAD | cut -f 1` &&\
-    pip install git+git://github.com/Mittmich/higlassupload.git@$githash &&\
-    echo "# pip install git+git://github.com/Mittmich/higlassupload.git@$githash" >> software_versions_git.txt
+    echo "# pip install git+git://github.com/mirnylab/pairlib@$githash" >> software_versions_git.txt
 
-ENV PATH="/home/anaconda3/envs/ngs_base/bin/:${PATH}"
+WORKDIR /home
 
 CMD /bin/bash
