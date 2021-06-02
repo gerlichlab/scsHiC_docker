@@ -5,7 +5,7 @@ ENV LC_ALL C.UTF-8
 
 # Update and create base image
 RUN apt-get update -y &&\
-    apt-get install -y gcc g++ make libz-dev &&\
+    apt-get install -y gcc g++ make libz-dev procps &&\
     apt-get clean
 
 # Install ngs_base environment
